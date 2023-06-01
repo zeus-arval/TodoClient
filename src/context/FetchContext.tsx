@@ -12,7 +12,7 @@ interface IFetchContext{
     fetchInProgress: boolean,
     get: <T extends IBaseModel>(endPoint: string) => any,
     getData: <T extends IBaseModel>(id: string, endPoint: string) => any,
-    post: <T extends IBaseModel>(data: any, endPoint: string) => void,
+    post: <T extends IBaseModel>(data: any, endPoint: string) => any,
     put: <T extends IBaseModel>(data: any, id: string, endPoint: string) => void,
     deleteData: <T extends IBaseModel>(id: string, endPoint: string) => void,
 }

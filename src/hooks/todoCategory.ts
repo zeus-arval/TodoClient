@@ -12,15 +12,14 @@ export function useTodoCategories() {
         setTodoCategories(prev => [...prev, data])
     }
 
-    async function getCategories(){
+    const getCategories = async () => {
         const data = await get(endPointName)
         setTodoCategories(data)
     }
 
-    async function updateCategory(category: ITodoCategory){
+    const updateCategory = async (category: ITodoCategory) => {
         await put<ITodoCategory>(category, category.id!, endPointName)
-        setTodoCategories(prev => {
-            let categories = prev.map(c => {
+        setTodoCategories(prev => prev.map(c => {
                 if (c.id === category.id){
                     return {
                         id: category.id,
@@ -31,22 +30,18 @@ export function useTodoCategories() {
                 }
 
                 return c
-            }).sort((a: ITodoCategory, b: ITodoCategory) =>
-            {
+            }).sort((a: ITodoCategory, b: ITodoCategory) => {
                 if (a.categorySort > b.categorySort) return 1
                 if (a.categorySort < b.categorySort) return -1
                 if (a.categoryName > b.categoryName) return 1
                 if (a.categoryName < b.categoryName) return -1
                 return 0
             })
-            console.log(categories)
-            return categories
-        })
+        )
     }
 
-    async function deleteCategory(todoCategory: ITodoCategory){
+    const deleteCategory = async (todoCategory: ITodoCategory) => {
         setTodoCategories(prev => prev.filter(c => c.id !== todoCategory.id))
-
         await deleteData(todoCategory.id!, endPointName)
     }
 
