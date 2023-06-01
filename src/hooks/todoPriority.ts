@@ -2,13 +2,13 @@ import {useContext, useEffect, useState} from "react";
 import {FetchContext} from "../context/FetchContext";
 import {ITodoPriority} from "../model/todoPriority";
 
-export function useTodoPriorities(){
+export const useTodoPriorities = () => {
     const {post, put, get, deleteData} = useContext(FetchContext)
     const [todoPriorities, setTodoPriorities] = useState(Array<ITodoPriority>)
     const endPointName = 'TodoPriorities'
 
-    const addPriority = async(todoPriority: ITodoPriority) =>{
-        let data = await post<ITodoPriority>(todoPriority, endPointName)!
+    const addPriority = async (priority: ITodoPriority) => {
+        let data = await post<ITodoPriority>(priority, endPointName)!
         setTodoPriorities(prev => [...prev, data])
     }
 
@@ -41,9 +41,9 @@ export function useTodoPriorities(){
         )
     }
 
-    const deletePriority = async (todoPriority: ITodoPriority) => {
-        setTodoPriorities(prev => prev.filter(c => c.id !== todoPriority.id))
-        await deleteData(todoPriority.id!, endPointName)
+    const deletePriority = async (priority: ITodoPriority) => {
+        setTodoPriorities(prev => prev.filter(c => c.id !== priority.id))
+        await deleteData(priority.id!, endPointName)
     }
 
     useEffect(() => {
