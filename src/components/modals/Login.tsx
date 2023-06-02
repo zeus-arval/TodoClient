@@ -1,9 +1,10 @@
-import {ChangeEvent, FormEvent, useContext, useEffect, useState} from "react";
+import {ChangeEvent, FormEvent, useContext, useState} from "react";
 import {ErrorComponent} from "../ErrorComponent";
 import {LoadingComponent} from "../LoadingComponent";
 import {AuthContext} from "../../context/AuthContext";
 import {LoginDialogContext} from "../../context/LoginDialogContext";
 import {Register} from "./Register";
+import {CustomColorButton, GreenButton} from "../common/Button";
 
 export function Login() {
     const {registering, closeRegistration, openRegistration} = useContext(LoginDialogContext)
@@ -47,6 +48,7 @@ export function Login() {
 
     const registerHandler = () => {
         openRegistration()
+        console.log('opening registration')
     }
 
     const closeHandler = () => {
@@ -77,20 +79,14 @@ export function Login() {
                     {(error || authError) && <ErrorComponent message={error === '' ? authError : error} />}
 
                     <div className='flex justify-center mt-7 mb-6'>
-                        <button
-                            type='submit'
-                            className='rounded-xl py-6 w-[50%] px-14 font-bold text-button-blue-300 border-2
-                            border-button-blue-300 hover:border-button-blue-400 hover:text-white hover:bg-button-blue-400'
-                        >LOG IN</button>
+                        <CustomColorButton colorClass='border-button-blue-300' type='submit' text='LOG IN'
+                                           customClass='rounded-xl py-6 w-[50%] px-14 font-bold text-button-blue-300
+                                           border-2 border-button-blue-300 hover:border-button-blue-400 hover:text-white
+                                           hover:bg-button-blue-400'/>
                     </div>
                 </form>
                 <div className='flex justify-center mt-7 mb-6'>
-                    <button
-                        type='button'
-                        className='rounded-xl py-3 px-14 w-[50%] font-bold bg-pastel-green-100 hover:bg-pastel-green-200
-                            text-white'
-                        onClick={registerHandler}
-                    >Registration</button>
+                    <GreenButton type='button' text='Registration' onClick={registerHandler}/>
                 </div>
                 {loading && <LoadingComponent />}
             </div>}

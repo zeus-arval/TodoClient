@@ -7,9 +7,17 @@ export function useTodoCategories() {
     const [todoCategories, setTodoCategories] = useState(Array<ITodoCategory>)
     const endPointName = 'TodoCategories'
 
+    const sortCategories = (a: ITodoCategory, b: ITodoCategory) => {
+        if (a.categorySort > b.categorySort) return 1
+        if (a.categorySort < b.categorySort) return -1
+        if (a.categoryName > b.categoryName) return 1
+        if (a.categoryName < b.categoryName) return -1
+        return 0
+    }
+
     const addCategory = async (todoCategory: ITodoCategory) => {
         let data = await post<ITodoCategory>(todoCategory, endPointName)!
-        setTodoCategories(prev => [...prev, data])
+        setTodoCategories(prev => [...prev, data].sort(sortCategories))
     }
 
     const getCategories = async () => {
@@ -30,13 +38,7 @@ export function useTodoCategories() {
                 }
 
                 return c
-            }).sort((a: ITodoCategory, b: ITodoCategory) => {
-                if (a.categorySort > b.categorySort) return 1
-                if (a.categorySort < b.categorySort) return -1
-                if (a.categoryName > b.categoryName) return 1
-                if (a.categoryName < b.categoryName) return -1
-                return 0
-            })
+            }).sort(sortCategories)
         )
     }
 

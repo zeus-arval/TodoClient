@@ -1,6 +1,7 @@
 import {ITodoCategory} from "../../../model/todoCategory";
 import {ChangeEvent, FormEvent, useState} from "react";
 import {ErrorComponent} from "../../ErrorComponent";
+import {GreenButton} from "../../common/Button";
 
 interface IUpdateTodoCategoryProps{
     onUpdated: (todoCategory: ITodoCategory) => Promise<void>,
@@ -58,10 +59,7 @@ export function UpdateTodoCategory({onUpdated, todoCategory}: IUpdateTodoCategor
                 />
 
                 <div className='flex justify-center mt-7 mb-12'>
-                    <button
-                        type='submit'
-                        className='rounded-xl py-3 px-14 font-bold bg-pastel-green-100 hover:bg-pastel-green-200 text-white'
-                    >Update</button>
+                    <GreenButton type='submit' text='Update'/>
                 </div>
             </form>
         </div>

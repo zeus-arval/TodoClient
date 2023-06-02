@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <BrowserRouter>
+    <BrowserRouter basename={'/react'}>
         <CookiesProvider>
             <ModalState>
                 <AuthState>

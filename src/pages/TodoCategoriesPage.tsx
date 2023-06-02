@@ -6,6 +6,7 @@ import {ITodoCategory} from "../model/todoCategory";
 import {ModalContext} from "../context/ModalContext";
 import {useTodoCategories} from "../hooks/todoCategory";
 import {UpdateTodoCategory} from "../components/todoCategories/modals/UpdateTodoCategory";
+import {GreenButton} from "../components/common/Button";
 
 export function TodoCategoriesPage() {
     const {modal, open, close} = useContext(ModalContext)
@@ -46,11 +47,7 @@ export function TodoCategoriesPage() {
             </Modal>}
 
             <div className='w-full mx-auto flex justify-center mt-12'>
-                <button
-                    className='rounded-xl py-4 px-14 font-bold bg-pastel-green-100 hover:bg-pastel-green-200 text-white'
-                    onClick={() => open()}>
-                    Create new Category
-                </button>
+                <GreenButton type='button' text='Create new Category' onClick={() => open()}/>
             </div>
         </div>
     )

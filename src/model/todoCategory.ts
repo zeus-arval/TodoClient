@@ -5,3 +5,7 @@ export interface ITodoCategory extends IBaseModel{
     categorySort: number,
     syncDt?: Date,
 }
+
+export interface IShortenedCategory extends IBaseModel{
+    categoryName: string,
+}

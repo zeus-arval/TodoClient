@@ -148,8 +148,8 @@ export const AuthState = ({children}: {children: ReactNode}) => {
 
     const refreshToken = async () => {
         const data = {
-            'jwt': user.credentials.token,
-            'refreshToken': user.credentials.refreshToken,
+            'jwt': user.credentials?.token ?? cookies.access_token,
+            'refreshToken': user.credentials?.refreshToken ?? cookies.refresh_token,
         }
         const headers = {
             'accept': 'text/plain',

@@ -1,47 +1,46 @@
+import {ITodoPriority} from "../../../model/todoPriority";
 import {ChangeEvent, FormEvent, useState} from "react";
 import {ErrorComponent} from "../../ErrorComponent";
-import {ITodoCategory} from "../../../model/todoCategory";
 import {GreenButton} from "../../common/Button";
 import {FormInput} from "../../common/Input";
 
-interface IAddTodoCategoryProps{
-    onCreated: (todoCategory: ITodoCategory) => Promise<any>,
+interface IAddTodoPriorityProps{
+    onCreated: (todoPriority: ITodoPriority) => Promise<any>,
 }
 
-export function AddTodoCategory({onCreated}: IAddTodoCategoryProps) {
-    const [todoCategory, setTodoCategory] = useState<ITodoCategory>({
-        categoryName: '',
-        categorySort: 1,
+export function AddTodoPriority({onCreated}: IAddTodoPriorityProps) {
+    const [priority, setPriority] = useState<ITodoPriority>({
+        priorityName: '',
+        prioritySort: 1,
     })
-
     const [nameErrorMessage, setNameErrorMessage] = useState('')
 
     const submitHandler = async (event: FormEvent) => {
         event.preventDefault()
         setNameErrorMessage('')
 
-        if (todoCategory.categoryName.trim().length <= 1){
+        if (priority.priorityName.trim().length <= 1){
             setNameErrorMessage('Length should be bigger than 1')
             return
         }
 
-        await onCreated(todoCategory)
+        await onCreated(priority)
     }
 
-    const changeCategoryName = (event: ChangeEvent<any>) => {
-        setTodoCategory(prev =>
+    const changePriorityName = (event: ChangeEvent<any>) => {
+        setPriority(prev =>
             ({
                 ...prev,
-                categoryName: event.target.value
+                priorityName: event.target.value
             })
         )
     }
 
-    const changeCategorySort = (event: ChangeEvent<any>) => {
-        setTodoCategory(prev =>
+    const changePrioritySort = (event: ChangeEvent<any>) => {
+        setPriority(prev =>
             ({
                 ...prev,
-                categorySort: event.target.value
+                prioritySort: event.target.value
             })
         )
     }
@@ -49,20 +48,18 @@ export function AddTodoCategory({onCreated}: IAddTodoCategoryProps) {
     return (
         <div>
             <form onSubmit={submitHandler}>
-
                 <FormInput
-                    title='Category Name'
+                    title='Priority Name'
                     type='text'
-                    value={todoCategory.categoryName}
-                    onChange={changeCategoryName}/>
-
+                    value={priority.priorityName}
+                    onChange={changePriorityName}/>
                 {nameErrorMessage && <ErrorComponent message={nameErrorMessage}/>}
 
                 <FormInput
-                    title='Category Sort'
+                    title='Priority Sort'
                     type='number'
-                    value={todoCategory.categorySort}
-                    onChange={changeCategorySort}
+                    value={priority.prioritySort}
+                    onChange={changePrioritySort}
                     condition={{'min': '1'}}/>
 
                 <div className='flex justify-center mt-7 mb-12'>

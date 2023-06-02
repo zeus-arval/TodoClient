@@ -7,9 +7,17 @@ export const useTodoPriorities = () => {
     const [todoPriorities, setTodoPriorities] = useState(Array<ITodoPriority>)
     const endPointName = 'TodoPriorities'
 
+    const sortPriorities = (a: ITodoPriority, b: ITodoPriority) => {
+        if (a.prioritySort > b.prioritySort) return 1
+        if (a.prioritySort < b.prioritySort) return -1
+        if (a.priorityName > b.priorityName) return 1
+        if (a.priorityName < b.priorityName) return -1
+        return 0
+    }
+
     const addPriority = async (priority: ITodoPriority) => {
         let data = await post<ITodoPriority>(priority, endPointName)!
-        setTodoPriorities(prev => [...prev, data])
+        setTodoPriorities(prev => [...prev, data].sort(sortPriorities))
     }
 
     const getPriorities = async () => {
@@ -31,13 +39,7 @@ export const useTodoPriorities = () => {
                 }
 
                 return c
-            }).sort((a: ITodoPriority, b: ITodoPriority) => {
-                if (a.prioritySort > b.prioritySort) return 1
-                if (a.prioritySort < b.prioritySort) return -1
-                if (a.priorityName > b.priorityName) return 1
-                if (a.priorityName < b.priorityName) return -1
-                return 0
-            })
+            }).sort(sortPriorities)
         )
     }
 
