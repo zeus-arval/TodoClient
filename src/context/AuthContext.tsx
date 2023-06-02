@@ -38,11 +38,17 @@ export const AuthContext = createContext<IAuthContext>({
 export const AuthState = ({children}: {children: ReactNode}) => {
     const [cookies, setCookie, removeCookie] = useCookies(['access_token', 'refresh_token',
         'user_first_name', 'user_last_name'])
+
     const {close} = useContext(ModalContext)
     const [authError, setAuthError] = useState('')
-    const [user, setUser] = useState<IUser>({email: '', password: '', credentials: {}})
     const [authorized, setAuthorized] = useState(false)
     const apiEndpoint = `${apiConfig().endPoint}Account`
+    const [user, setUser] = useState<IUser>({email: '', password: '', credentials: {
+        refreshToken: cookies.refresh_token,
+        token: cookies.access_token,
+        firstName: cookies.user_first_name,
+        lastName: cookies.user_last_name,
+    }})
 
     const setCredentials = (credentials: ICredentials) => {
         setUser(prev => ({ ...prev, credentials: {
@@ -148,8 +154,8 @@ export const AuthState = ({children}: {children: ReactNode}) => {
 
     const refreshToken = async () => {
         const data = {
-            'jwt': user.credentials?.token ?? cookies.access_token,
-            'refreshToken': user.credentials?.refreshToken ?? cookies.refresh_token,
+            'jwt': cookies.access_token,
+            'refreshToken': cookies.refresh_token,
         }
         const headers = {
             'accept': 'text/plain',

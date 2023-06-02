@@ -13,7 +13,6 @@ export function HomePage() {
     const {modal, close} = useContext(ModalContext)
     const {registering, closeRegistration} = useContext(LoginDialogContext)
     const {authorized} = useContext(AuthContext)
-    const {todoTasks, updateTask} = useTodoTask()
 
     const closeHandler = () => {
         close()
@@ -21,18 +20,12 @@ export function HomePage() {
         console.log(registering)
     }
 
-    const updateTaskStatus = async (todoTask: ITodoTask) => {
-        todoTask.isCompleted = true
-        await updateTask(todoTask)
-    }
-
     return (
-        <div className='h-screen flex items-center justify-center flex-col'>
-            <p className='text-2xl font-bold'>
-                Welcome to my 3-th homework!
-            </p>
-
-            {authorized && <TodoTasksList todoTasks={todoTasks.filter(t => !t.isCompleted)} onUpdated={updateTaskStatus}/>}
+        <div className='h-screen flex items-center  flex-col'>
+            <div className='text-center text-4xl mt-24'>
+                Home Page
+            </div>
+            {authorized && <TodoTasksList />}
 
             {modal && <Modal title={registering ? 'Registration' : 'Login'} onClose={closeHandler}>
                 <Login />

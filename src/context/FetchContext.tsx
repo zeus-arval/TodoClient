@@ -33,6 +33,8 @@ export function FetchState({children}: {children: ReactNode}) {
     const [fetchError, setFetchingError] = useState('')
     const [fetchInProgress, setFetchInProgress] = useState(false)
     const {close} = useContext(ModalContext)
+    const [cookies] = useCookies(['access_token', 'refresh_token',
+        'user_first_name', 'user_last_name'])
 
     const tryFetch = async (method: () => Promise<any>, onSuccess: () => void) => {
         try {
@@ -57,7 +59,7 @@ export function FetchState({children}: {children: ReactNode}) {
     const get = async <T extends IBaseModel>(endPoint: string) => {
         const fullEndpoint = `${url}${endPoint}`
 
-        if (!user.credentials.token){
+        if (!cookies.access_token){
             await refreshToken()
         }
 

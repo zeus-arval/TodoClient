@@ -1,21 +1,30 @@
 import {ITodoTask} from "../../model/todoTask";
-
-interface ITodoTasksListProps{
-    onUpdated: (todoTask: ITodoTask) => Promise<void>,
-    todoTasks: ITodoTask[],
-}
+import {useTodoTask} from "../../hooks/todoTask";
 
 interface ITodoTaskListRowProps{
     onUpdated: (todoTask: ITodoTask) => Promise<void>,
     todoTask: ITodoTask,
 }
 
-export function TodoTasksList({todoTasks, onUpdated}: ITodoTasksListProps) {
+export function TodoTasksList() {
+    const {todoTasks, updateTask} = useTodoTask()
+    const filteredTodoTasks = todoTasks.filter(t => !t.isCompleted)
+
+    const updateTaskStatus = async (todoTask: ITodoTask) => {
+        todoTask.isCompleted = true
+        await updateTask(todoTask)
+    }
+
     return (
         <>
-            {todoTasks && <div className='bg-gray-200 px-4 py-2'>
-                {todoTasks?.map((t, index) => <TodoTaskListRow key={index} onUpdated={onUpdated} todoTask={t}/>)}
-            </div>}
+            <div className='mt-32'>
+                {filteredTodoTasks.length > 0 && <div>
+                    <p className='text-center text-3xl'>Todo List</p>
+                    <div className='bg-gray-200 px-4 py-2 mt-6'>
+                        {filteredTodoTasks?.map((t, index) => <TodoTaskListRow key={index} onUpdated={updateTaskStatus} todoTask={t}/>)}
+                    </div>
+                </div>}
+            </div>
         </>
     )
 }
@@ -26,10 +35,9 @@ export function TodoTaskListRow({todoTask, onUpdated}: ITodoTaskListRowProps){
     }
 
     return (
-        <div className='m-1 bg-blue-300 p-1'>
-            <div className='flex flex-row'>
-                <input type='checkbox' onMouseUp={updateHandler} className=''/>
-                <p>{todoTask.taskName}</p>
+        <div className='m-1 bg-blue-300 py-3 px-5 active:bg-blue-400'>
+            <div className='flex flex-row' onMouseUp={updateHandler} >
+                <p className='text-white text-2xl'>{todoTask.taskName}</p>
             </div>
         </div>
     )
